@@ -1,0 +1,30 @@
+{
+  "name": "saeedhosseini/scrap",
+  "description": "WordPress plugin to scrap products from other sites",
+  "homepage": "https://github.com/saeedhosseini/scrap",
+  "keywords": [
+    "wordpress"
+  ],
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name":"Saeed Hossseini",
+      "email":"saeedhosseny1377@gmail.com",
+      "homepage":"https://saeed.me"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/saeedhosseini/scrap/issues",
+    "source": "https://github.com/saeedhosseini/scrap"
+  },
+  "type": "wordpress-plugin",
+  "require": {
+    "php": "^7.4.3",
+    "illuminate/database":"^v8.83.27"
+  },
+  "autoload": {
+    "classmap": [
+      "models"
+    ]
+  }
+}

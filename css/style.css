@@ -1,0 +1,13 @@
+.thumbnail{
+    width: 80px;
+    height: 80px;
+}
+div#content {
+    margin-bottom: 20px;
+}
+
+th, td {
+  padding: 15px;
+  text-align: left;
+letter-spacing: 0.5px;
+}
