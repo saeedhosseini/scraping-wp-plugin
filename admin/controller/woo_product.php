@@ -2,10 +2,14 @@
 
 function addProduct( $id ) {
 	$currency = Currency::all();
-	$tQ = $currency->where( 'origin', 'lir' )
-	               ->where( 'exchange', 'rial' )->first();
+	$tQ       = $currency->where( 'origin', 'lir' )
+	                     ->where( 'exchange', 'rial' )->first();
 
-	$productData = Product::query()->with( [ 'dataAttributes', 'dataAttributes.attributeName' ] )->find( $id );
+	$productData = Product::query()->with( [
+		'category',
+		'dataAttributes',
+		'dataAttributes.attributeName'
+	] )->find( $id );
 
 	if ( $productData ) {
 
@@ -26,8 +30,8 @@ function addProduct( $id ) {
 		$sizes = [];
 
 		foreach ( $productData->dataAttributes as $attributeData ) {
-			if ( $attributeData->attributeName->attr_name == 'price' && $tQ != null) {
-			//	$price = $attributeData->attr_value * $tQ->rate / 10;
+			if ( $attributeData->attributeName->attr_name == 'price' && $tQ != null ) {
+				//	$price = $attributeData->attr_value * $tQ->rate / 10;
 				$price = $attributeData->attr_value * $tQ->rate;
 			} else if ( $attributeData->attributeName->attr_name == 'name' ) {
 				$name = $attributeData->attr_value;
@@ -60,6 +64,7 @@ function addProduct( $id ) {
 		$product->set_price( $price );
 		$product->set_regular_price( $price );
 		$product->set_sale_price( $price );
+		$product->set_category_ids([$productData->category->woo_category_id]);
 		$desPlusBrand = "<li>Seller: $brand</li> " . $description;
 		$product->set_short_description( $desPlusBrand );
 		if ( $imageID_Main > 0 ) {
@@ -67,6 +72,7 @@ function addProduct( $id ) {
 		}
 		$product->set_gallery_image_ids( $galleryImages );
 		$product->set_attributes( $attributes );
+		$product->set_manage_stock(false);
 		//$product->set_sku()
 		$id = $product->save();
 		$productData->update( [
@@ -79,6 +85,7 @@ function addProduct( $id ) {
 			$variation->set_parent_id( $product->get_id() );
 			$variation->set_attributes( array( 'size' => $size ) );
 			$variation->set_regular_price( $price );
+			$variation->set_manage_stock(false);
 			$variation->save();
 		}
 
