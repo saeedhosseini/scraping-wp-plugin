@@ -54,6 +54,8 @@ function scrap_init()
     load_ORM();
 
     load_CSS_JS();
+	include(__DIR__ . '/admin/util/upload_programming.php');
+    include(__DIR__ . '/admin/controller/woo_product.php');
     include(__DIR__ . '/admin/views/product_table.php');
 }
 
